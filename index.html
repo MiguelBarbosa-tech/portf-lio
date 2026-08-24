@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio — Miguel Barbosa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #0b0b0b;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* CONTAINER DAS ONDAS FINAS COM CANVAS */
+        .hero-waves-container {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            height: 550px;
+            z-index: -1;
+            overflow: hidden;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+        }
+
+        #wavesCanvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            filter: blur(8px);
+            -webkit-filter: blur(8px);
+        }
+
+        /* EFEITO DE MÁSCARA / RETÂNGULO BRANCO NO LOGÓTIPO */
+        .logo-reveal-box {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        .logo-reveal-box .logo-text {
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 1.1rem;
+            color: #ffffff;
+            opacity: 1;
+            clip-path: inset(0 100% 0 0);
+            animation: revealTextMask 1.4s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+            display: inline-block;
+        }
+
+        .logo-reveal-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -40%;
+            width: 40%; 
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 2;
+            animation: slideBlockSlow 1.4s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        }
+
+        @keyframes slideBlockSlow {
+            0% { left: -40%; }
+            100% { left: 140%; }
+        }
+
+        @keyframes revealTextMask {
+            0% { clip-path: inset(0 100% 0 0); }
+            100% { clip-path: inset(0 0 0 0); }
+        }
+
+        /* ESTILO PARA A MÁQUINA DE ESCREVER DO HERO */
+        .typing-hero-wrapper {
+            display: inline-block;
+        }
+
+        #typing-hero {
+            border-right: 3px solid #ffffff;
+            padding-right: 4px;
+            animation: blinkCursorHero 0.8s infinite step-end;
+        }
+
+        @keyframes blinkCursorHero {
+            0%, 100% { border-color: transparent; }
+            50% { border-color: #ffffff; }
+        }
+
+        /* ANIMAÇÕES BASE DE ENTRADA (.reveal) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(35px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ATRASOS ESCALONADOS */
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 60px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(11, 11, 11, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: padding 0.3s ease;
+        }
+
+        .navbar nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .navbar nav a {
+            color: #777777;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .navbar nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #ffffff;
+            transition: width 0.3s ease;
+        }
+
+        .navbar nav a:hover::after, .navbar nav a.active::after {
+            width: 100%;
+        }
+
+        .navbar nav a:hover, .navbar nav a.active {
+            color: #ffffff;
+        }
+
+        .btn-head, .btn-briefing {
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            padding: 11px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+        }
+
+        .btn-head:hover, .btn-briefing:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15);
+            opacity: 0.95;
+        }
+
+        .btn-head:active, .btn-briefing:active {
+            transform: translateY(0);
+        }
+
+        .hero {
+            padding: 180px 60px 50px 60px;
+            max-width: 1100px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -2px;
+        }
+
+        .serif-normal {
+            font-family: serif;
+            font-weight: 400;
+        }
+
+        .italic-serif {
+            font-family: serif;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .filters {
+            display: flex;
+            gap: 25px;
+            padding: 0 60px 40px 60px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: none;
+            border: none;
+            color: #666666;
+            font-size: 1rem;
+            cursor: pointer;
+            padding-bottom: 5px;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            color: #ffffff;
+        }
+
+        .filter-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -41px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ffffff;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            padding: 0 60px 80px 60px;
+        }
+
+        .project-card {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            background: #121212;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .project-image-wrapper {
+            overflow: hidden;
+            width: 100%;
+            aspect-ratio: 16/10;
+            background-color: #1a1a1a;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.04);
+        }
+
+        .project-info {
+            padding: 24px;
+        }
+
+        .project-info .category {
+            color: #777;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .project-info h3 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .project-info .tag {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .footer-cta {
+            padding: 100px 60px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background-color: #0b0b0b;
+        }
+
+        .footer-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        /* BOTÃO FIXO "VOLTAR AO TOPO" */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 45px;
+            height: 45px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: #ffffff;
+            color: #000000;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 900px) {
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .navbar, .hero, .filters, .portfolio-grid, .footer-cta {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body id="topo">
+
+    <!-- CANVAS COM O DESFOQUE CSS REAL APLICADO -->
+    <div class="hero-waves-container">
+        <canvas id="wavesCanvas"></canvas>
+    </div>
+
+    <header class="navbar">
+        <div class="logo-reveal-box">
+            <span class="logo-text">MIGUEL BARBOSA</span>
+        </div>
+        <nav>
+            <a href="index.html" class="active">Portfólio</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="contactos.html">Contacto</a>
+        </nav>
+        <a href="contactos.html" class="btn-head">Iniciar Projeto</a>
+    </header>
+
+    <section class="hero reveal">
+        <h1>
+            <span class="serif-normal">Ideias que</span><br>
+            <span class="italic-serif">ganham</span><br>
+            <span class="italic-serif typing-hero-wrapper"><span id="typing-hero"></span></span>
+        </h1>
+    </section>
+
+    <section class="filters reveal delay-1">
+        <button class="filter-btn active" data-filter="todos">Todos</button>
+        <button class="filter-btn" data-filter="motion">Motion Design</button>
+        <button class="filter-btn" data-filter="videos">Vídeos</button>
+        <button class="filter-btn" data-filter="design">Design</button>
+        <button class="filter-btn" data-filter="fotografia">Fotografias</button>
+        <button class="filter-btn" data-filter="animacao">Animação 3D</button>
+    </section>
+
+    <main class="portfolio-grid">
+        <a href="dgostar.html" class="project-card reveal delay-1" data-category="videos design fotografia">
+            <div class="project-image-wrapper">
+                <img src="projeto1.jpg" alt="D'GOSTAR" class="project-image">
+            </div>
+            <div class="project-info">
+                <span class="category">Estratégia Digital & Conteúdo</span>
+                <h3>D'GOSTAR</h3>
+                <p class="tag">Vídeo | Design | Fotografia</p>
+            </div>
+        </a>
+
+        <a href="dessta.html" class="project-card reveal delay-2" data-category="motion animacao">
+            <div class="project-image-wrapper">
+                <img src="projeto2.png" alt="Dessta" class="project-image">
+            </div>
+            <div class="project-info">
+                <span class="category">Rebranding da Marca</span>
+                <h3>"Design Station" to "Dessta"</h3>
+                <p class="tag">Motion Design | Animação 3D</p>
+            </div>
+        </a>
+
+        <a href="duplasimprovaveis.html" class="project-card reveal delay-3" data-category="motion">
+            <div class="project-image-wrapper">
+                <img src="projeto3.png" alt="Duplas Improváveis" class="project-image">
+            </div>
+            <div class="project-info">
+                <span class="category">Lançamento de Novo Projeto</span>
+                <h3>Duplas Improváveis – adn</h3>
+                <p class="tag">Motion Design</p>
+            </div>
+        </a>
+
+        <a href="PresençaDigital-JaimeOculista.html" class="project-card reveal delay-1" data-category="motion">
+            <div class="project-image-wrapper">
+                <img src="projeto4.png" alt="Jaime Oculista" class="project-image">
+            </div>
+            <div class="project-info">
+                <span class="category">Apresentação da presença digital</span>
+                <h3>Presença Digital – Jaime Oculista</h3>
+                <p class="tag">Motion Design</p>
+            </div>
+        </a>
+
+        <a href="adn_Conect.html" class="project-card reveal delay-2" data-category="design motion fotografia">
+            <div class="project-image-wrapper">
+                <img src="projeto5.jpg" alt="adn Conect" class="project-image">
+            </div>
+            <div class="project-info">
+                <span class="category">Evento da Agência</span>
+                <h3>adn Conect</h3>
+                <p class="tag">Design | Motion Design | Fotografia</p>
+            </div>
+        </a>
+
+        <a href="EsposendeComedySessions.html" class="project-card reveal delay-3" data-category="videos animacao">
+            <div class="project-image-wrapper">
+                <img src="projeto6.jpg" alt="Esposende Comedy Sessions" class="project-image">
+            </div>
+            <div class="project-info">
+                <span class="category">Espetáculo de Comédia</span>
+                <h3>Esposende Comedy Sessions</h3>
+                <p class="tag">Vídeo | Animação 3D</p>
+            </div>
+        </a>
+    </main>
+
+    <footer class="footer-cta">
+        <h2 class="reveal">Tens um projeto em mente?</h2>
+        <div class="reveal delay-1" style="display: inline-block;">
+            <a href="contactos.html" class="btn-briefing">Enviar Briefing</a>
+        </div>
+    </footer>
+
+    <!-- BOTÃO FIXO "VOLTAR AO TOPO" -->
+    <a href="#topo" class="back-to-top" id="backToTopBtn">↑</a>
+
+    <script>
+        // SCRIPT PARA AS ONDAS NO CANVAS
+        const canvas = document.getElementById('wavesCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        let step = 0;
+
+        function drawWaves() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const waves = [
+                { speed: 0.015, height: 45, frequency: 0.003, yOffset: 0.35, alpha: 0.6 },
+                { speed: -0.02,  height: 60, frequency: 0.0025, yOffset: 0.5,  alpha: 0.8 },
+                { speed: 0.012, height: 35, frequency: 0.004, yOffset: 0.65, alpha: 0.5 }
+            ];
+
+            waves.forEach(wave => {
+                ctx.beginPath();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = `rgba(240, 240, 240, ${wave.alpha})`;
+
+                for (let x = 0; x <= canvas.width; x += 5) {
+                    let y = canvas.height * wave.yOffset + 
+                            Math.sin(x * wave.frequency + step * wave.speed) * wave.height + 
+                            Math.cos(x * 0.0015 - step * (wave.speed * 0.5)) * 20;
+                    
+                    if (x === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+                ctx.stroke();
+            });
+
+            step += 1;
+            requestAnimationFrame(drawWaves);
+        }
+
+        drawWaves();
+
+        // EFEITO DE MÁQUINA DE ESCREVER DO HERO COM O PONTO INCLUÍDO
+        const heroWords = ["movimento.", "vida.", "forma."];
+        let heroIndex = 0;
+
+        function typeHero() {
+            let letters = heroWords[heroIndex].split("");
+            var loopType = function() {
+                if (letters.length > 0) {
+                    document.getElementById('typing-hero').innerHTML += letters.shift();
+                } else {
+                    setTimeout(deleteHero, 1600);
+                    return;
+                }
+                setTimeout(loopType, 85);
+            };
+            loopType();
+        }
+
+        function deleteHero() {
+            let letters = heroWords[heroIndex].split("");
+            var loopDelete = function() {
+                if (letters.length > 0) {
+                    letters.pop();
+                    document.getElementById('typing-hero').innerHTML = letters.join("");
+                } else {
+                    heroIndex = (heroIndex + 1) % heroWords.length;
+                    setTimeout(typeHero, 400);
+                    return;
+                }
+                setTimeout(loopDelete, 45);
+            };
+            loopDelete();
+        }
+
+        // Inicia a animação da máquina de escrever
+        setTimeout(typeHero, 600);
+
+        // Filtragem de Projetos
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                const filterValue = button.getAttribute('data-filter');
+
+                projectCards.forEach(card => {
+                    const cardCategories = card.getAttribute('data-category');
+                    if (filterValue === 'todos' || (cardCategories && cardCategories.includes(filterValue))) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Controlo do Botão Voltar ao Topo
+        const backToTopButton = document.getElementById('backToTopBtn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+
+        // Observer para as animações gerais (.reveal)
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach(element => {
+            revealObserver.observe(element);
+        });
+    </script>
+</body>
+</html>
