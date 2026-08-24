@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto — Miguel Barbosa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #0b0b0b;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ANIMAÇÕES DE ENTRADA (FADE UP) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(35px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* EFEITO DE MÁSCARA NOS TÍTULOS */
+        .reveal-box {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .reveal-box .section-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            margin-bottom: 0;
+            opacity: 1;
+            clip-path: inset(0 100% 0 0);
+            line-height: 1.2;
+        }
+
+        .reveal-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -40%;
+            width: 40%; 
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 2;
+            transform: translateX(0);
+        }
+
+        .reveal-box.active::after {
+            animation: slideBlockSlow 1.4s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        }
+
+        .reveal-box.active .section-title {
+            animation: revealTextMask 1.4s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        }
+
+        @keyframes slideBlockSlow {
+            0% { left: -40%; }
+            100% { left: 140%; }
+        }
+
+        @keyframes revealTextMask {
+            0% { clip-path: inset(0 100% 0 0); }
+            100% { clip-path: inset(0 0 0 0); }
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+
+        /* EFEITO DE MÁQUINA DE ESCREVER + CURSOR */
+        .typing-wrapper {
+            display: inline-block;
+            font-family: serif;
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        #typing-text {
+            border-right: 2px solid #ffffff;
+            padding-right: 4px;
+            animation: blinkCursor 0.8s infinite step-end;
+        }
+
+        @keyframes blinkCursor {
+            0%, 100% { border-color: transparent; }
+            50% { border-color: #ffffff; }
+        }
+
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 60px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(11, 11, 11, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo-link {
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .logo {
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 1.1rem;
+            color: #ffffff;
+            transition: opacity 0.3s;
+        }
+
+        .logo:hover {
+            opacity: 0.7;
+        }
+
+        .navbar nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .navbar nav a {
+            color: #777777;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .navbar nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #ffffff;
+            transition: width 0.3s ease;
+        }
+
+        .navbar nav a:hover::after, .navbar nav a.active::after {
+            width: 100%;
+        }
+
+        .navbar nav a:hover, .navbar nav a.active {
+            color: #ffffff;
+        }
+
+        .btn-head, .btn-submit {
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            padding: 11px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+        }
+
+        .btn-head:hover, .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15);
+            opacity: 0.95;
+        }
+
+        /* CONTAINER PRINCIPAL DUPLA COLUNA */
+        .page-container {
+            padding: 180px 80px 100px 80px;
+            max-width: 1350px;
+            margin: 0 auto;
+        }
+
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 80px;
+            align-items: flex-start;
+        }
+
+        .contact-intro p {
+            color: #888888;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        /* BLOCOS DE INFORMAÇÃO RÁPIDA */
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .contact-card {
+            background-color: #121212;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-card-info span {
+            color: #666666;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .contact-card-info h3 {
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 500;
+        }
+
+        .contact-card-action {
+            color: #888888;
+            font-size: 1.2rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .contact-card:hover .contact-card-action {
+            color: #ffffff;
+            transform: translateX(4px);
+        }
+
+        /* FORMULÁRIO */
+        .contact-form-wrapper {
+            background-color: #121212;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 45px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #777777;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            background-color: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 14px 18px;
+            color: #ffffff;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s, background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #ffffff;
+            background-color: #1f1f1f;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 140px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 1024px) {
+            .page-container {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+            .contact-layout {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 20px;
+            }
+            .page-container {
+                padding: 140px 20px 60px 20px;
+            }
+            .reveal-box .section-title {
+                font-size: 2.6rem;
+            }
+            .contact-form-wrapper {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body id="topo">
+
+    <header class="navbar">
+        <a href="index.html" class="logo-link">
+            <div class="logo">MIGUEL BARBOSA</div>
+        </a>
+        <nav>
+            <a href="index.html">Portfólio</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="contactos.html" class="active">Contacto</a>
+        </nav>
+        <a href="contactos.html" class="btn-head">Iniciar Projeto</a>
+    </header>
+
+    <main class="page-container">
+        
+        <div class="contact-layout">
+            
+            <!-- COLUNA ESQUERDA -->
+            <div class="contact-intro">
+                <div class="reveal-box">
+                    <h1 class="section-title">Vamos trabalhar<br><span class="typing-wrapper"><span id="typing-text"></span></span></h1>
+                </div>
+                <p class="reveal delay-1">Tens um projeto em mente, uma proposta ou queres apenas trocar ideias sobre motion design e criação visual? Envia-me uma mensagem.</p>
+                
+                <div class="contact-methods reveal delay-2">
+                    <a href="mailto:miguelmbarbosa2005@gmail.com" class="contact-card">
+                        <div class="contact-card-info">
+                            <span>E-mail Direto</span>
+                            <h3>miguelmbarbosa2005@gmail.com</h3>
+                        </div>
+                        <div class="contact-card-action">↗</div>
+                    </a>
+
+                    <a href="https://www.instagram.com/miguelbarbosa.media/" target="_blank" class="contact-card">
+                        <div class="contact-card-info">
+                            <span>Instagram</span>
+                            <h3>@miguelbarbosa.media</h3>
+                        </div>
+                        <div class="contact-card-action">↗</div>
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/miguel-barbosa-2b0a25332" target="_blank" class="contact-card">
+                        <div class="contact-card-info">
+                            <span>LinkedIn</span>
+                            <h3>Miguel Barbosa</h3>
+                        </div>
+                        <div class="contact-card-action">↗</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- COLUNA DIREITA -->
+            <div class="contact-form-wrapper reveal delay-1">
+                <!-- FORMULÁRIO COM MAILTO (DIRETO PARA O TEU EMAIL) -->
+                <form id="contactForm">
+                    
+                    <div class="form-group">
+                        <label for="nome">O teu Nome</label>
+                        <input type="text" id="nome" class="form-control" placeholder="Ex: Ana Silva" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">O teu E-mail</label>
+                        <input type="email" id="email" class="form-control" placeholder="nome@exemplo.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mensagem">Mensagem / Projeto</label>
+                        <textarea id="mensagem" class="form-control" placeholder="Conta-me detalhes sobre o que pretendes criar..." required></textarea>
+                    </div>
+
+                    <!-- Botão de submissão -->
+                    <button type="submit" class="btn-submit">Enviar Mensagem</button>
+                </form>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        // SCRIPT DO EFEITO DE MÁQUINA DE ESCREVER
+        const words = ["juntos?", "em grande?", "com ideias?"];
+        let i = 0;
+        let timer;
+
+        function typingEffect() {
+            let word = words[i].split("");
+            var loopTyping = function() {
+                if (word.length > 0) {
+                    document.getElementById('typing-text').innerHTML += word.shift();
+                } else {
+                    setTimeout(deletingEffect, 2000);
+                    return;
+                }
+                timer = setTimeout(loopTyping, 120);
+            };
+            loopTyping();
+        }
+
+        function deletingEffect() {
+            let word = words[i].split("");
+            var loopDeleting = function() {
+                if (word.length > 0) {
+                    word.pop();
+                    document.getElementById('typing-text').innerHTML = word.join("");
+                } else {
+                    if (words.length > (i + 1)) {
+                        i++;
+                    } else {
+                        i = 0;
+                    }
+                    setTimeout(typingEffect, 500);
+                    return;
+                }
+                timer = setTimeout(loopDeleting, 60);
+            };
+            loopDeleting();
+        }
+
+        // Inicia o efeito após carregar a página
+        setTimeout(typingEffect, 1000);
+
+        // Ação ao clicar em "Enviar Mensagem"
+        const form = document.getElementById('contactForm');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nome = document.getElementById('nome').value;
+            const emailCliente = document.getElementById('email').value;
+            const mensagem = document.getElementById('mensagem').value;
+
+            // Prepara o assunto e o corpo do e-mail automaticamente
+            const assunto = encodeURIComponent("Novo contacto do site - " + nome);
+            const corpo = encodeURIComponent("Nome: " + nome + "\nE-mail: " + emailCliente + "\n\nMensagem:\n" + mensagem);
+
+            // Abre o programa de correio do utilizador preenchendo o teu email
+            window.location.href = `mailto:miguelmbarbosa2005@gmail.com?subject=${assunto}&body=${corpo}`;
+        });
+
+        // Observer para animações de entrada
+        const observerOptions = { threshold: 0.15 };
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal, .reveal-box').forEach(element => {
+            revealObserver.observe(element);
+        });
+    </script>
+
+</body>
+</html>

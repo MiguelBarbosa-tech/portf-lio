@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre — Miguel Barbosa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #0b0b0b;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ANIMAÇÕES BASE DE ENTRADA (FADE UP) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(35px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-box {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 35px;
+        }
+
+        .reveal-box .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 0;
+            opacity: 1;
+            clip-path: inset(0 100% 0 0);
+        }
+
+        .reveal-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -40%;
+            width: 40%; 
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 2;
+            transform: translateX(0);
+        }
+
+        .reveal-box.active::after {
+            animation: slideBlockSlow 1.4s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        }
+
+        .reveal-box.active .section-title {
+            animation: revealTextMask 1.4s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        }
+
+        @keyframes slideBlockSlow {
+            0% { left: -40%; }
+            100% { left: 140%; }
+        }
+
+        @keyframes revealTextMask {
+            0% { clip-path: inset(0 100% 0 0); }
+            100% { clip-path: inset(0 0 0 0); }
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+
+        /* ESTILO PARA A MÁQUINA DE ESCREVER DA PALAVRA HELLO */
+        .typing-hello-wrapper {
+            display: inline-block;
+        }
+
+        #typing-hello {
+            border-right: 2px solid #777777;
+            padding-right: 3px;
+            animation: blinkCursor 0.8s infinite step-end;
+        }
+
+        @keyframes blinkCursor {
+            0%, 100% { border-color: transparent; }
+            50% { border-color: #777777; }
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 60px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(11, 11, 11, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo-link {
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .logo {
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 1.1rem;
+            color: #ffffff;
+            transition: opacity 0.3s;
+        }
+
+        .logo:hover {
+            opacity: 0.7;
+        }
+
+        .navbar nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .navbar nav a {
+            color: #777777;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .navbar nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #ffffff;
+            transition: width 0.3s ease;
+        }
+
+        .navbar nav a:hover::after, .navbar nav a.active::after {
+            width: 100%;
+        }
+
+        .navbar nav a:hover, .navbar nav a.active {
+            color: #ffffff;
+        }
+
+        .btn-head, .btn-main {
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            padding: 11px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+        }
+
+        .btn-head:hover, .btn-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15);
+            opacity: 0.95;
+        }
+
+        .page-container {
+            padding: 180px 60px 100px 60px;
+            max-width: 1350px;
+            margin: 0 auto;
+        }
+
+        .about-hero {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 50px;
+            align-items: center;
+            margin-bottom: 130px;
+        }
+
+        .about-hero-text .hello-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #777777;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .about-hero-text h1 {
+            font-size: 3.6rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+        }
+
+        .about-hero-text h2 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #aaaaaa;
+            margin-bottom: 25px;
+        }
+
+        .about-hero-text p {
+            color: #888888;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 35px;
+            max-width: 650px;
+        }
+
+        .profile-side-image-wrapper {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: floatImage 6s ease-in-out infinite;
+        }
+
+        @keyframes floatImage {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .profile-side-image-wrapper img {
+            width: 100%;
+            max-width: 420px;
+            height: auto;
+            object-fit: cover;
+            mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
+        }
+
+        .skills-section, .stats-section, .services-section {
+            margin-bottom: 130px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px 50px;
+            background-color: #121212;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 50px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            width: 100%;
+        }
+
+        .skill-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .skill-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #1a1a1a;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #888888, #ffffff);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            width: 100%;
+        }
+
+        .stat-card {
+            background-color: #121212;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 50px 30px;
+            text-align: center;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+        }
+
+        .stat-label {
+            color: #888888;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            width: 100%;
+        }
+
+        .service-card {
+            background-color: #121212;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 50px 35px;
+            text-align: left;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .service-icon {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .service-card p {
+            color: #888888;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 45px;
+            height: 45px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: #ffffff;
+            color: #000000;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 1024px) {
+            .page-container {
+                padding-left: 30px;
+                padding-right: 30px;
+            }
+            .skills-grid, .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 20px;
+            }
+            .page-container {
+                padding: 130px 20px 60px 20px;
+            }
+            .about-hero, .skills-grid, .stats-grid, .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .about-hero {
+                text-align: left;
+                gap: 40px;
+            }
+            .profile-side-image-wrapper {
+                justify-content: center;
+            }
+            .about-hero-text h1 {
+                font-size: 2.8rem;
+            }
+        }
+    </style>
+</head>
+<body id="topo">
+
+    <header class="navbar">
+        <a href="index.html" class="logo-link">
+            <div class="logo">MIGUEL BARBOSA</div>
+        </a>
+        <nav>
+            <a href="index.html">Portfólio</a>
+            <a href="sobre.html" class="active">Sobre</a>
+            <a href="contactos.html">Contacto</a>
+        </nav>
+        <a href="contactos.html" class="btn-head">Iniciar Projeto</a>
+    </header>
+
+    <main class="page-container">
+        
+        <!-- HERO SOBRE -->
+        <section class="about-hero">
+            <div class="about-hero-text reveal">
+                <span class="hello-label">
+                    <span class="typing-hello-wrapper"><span id="typing-hello"></span></span>
+                </span>
+                <h1>Sou o <span style="color: #cccccc;">Miguel Barbosa</span></h1>
+                <h2>Motion Designer & Criador Visual</h2>
+                <p>Ajudo marcas a transformar ideias estáticas e conceitos complexos em conteúdos visuais dinâmicos que captam atenções e geram impacto real no digital.</p>
+                <a href="contactos.html" class="btn-main">Vamos Conversar</a>
+            </div>
+
+            <div class="profile-side-image-wrapper reveal delay-1">
+                <img src="eu.png" alt="Miguel Barbosa">
+            </div>
+        </section>
+
+        <!-- SKILLS / COMPETÊNCIAS -->
+        <section class="skills-section">
+            <div class="reveal-box">
+                <h2 class="section-title">As Minhas <span style="font-weight: 300; font-family: serif; font-style: italic;">Skills</span></h2>
+            </div>
+            
+            <div class="skills-grid reveal delay-1">
+                <div class="skill-group">
+                    <div class="skill-info">
+                        <span>MOTION DESIGN</span>
+                        <span>95%</span>
+                    </div>
+                    <div class="skill-bar"><div class="skill-progress" data-width="95%"></div></div>
+                </div>
+
+                <div class="skill-group">
+                    <div class="skill-info">
+                        <span>VÍDEO</span>
+                        <span>90%</span>
+                    </div>
+                    <div class="skill-bar"><div class="skill-progress" data-width="90%"></div></div>
+                </div>
+
+                <div class="skill-group">
+                    <div class="skill-info">
+                        <span>DESIGN GRÁFICO</span>
+                        <span>88%</span>
+                    </div>
+                    <div class="skill-bar"><div class="skill-progress" data-width="88%"></div></div>
+                </div>
+
+                <div class="skill-group">
+                    <div class="skill-info">
+                        <span>FOTOGRAFIA</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="skill-bar"><div class="skill-progress" data-width="85%"></div></div>
+                </div>
+
+                <div class="skill-group">
+                    <div class="skill-info">
+                        <span>ANIMAÇÃO 3D</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="skill-bar"><div class="skill-progress" data-width="85%"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ESTATÍSTICAS / MÉTRICAS -->
+        <section class="stats-section">
+            <div class="reveal-box">
+                <h2 class="section-title">Em <span style="font-weight: 300; font-family: serif; font-style: italic;">Números</span></h2>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card reveal delay-1">
+                    <div class="stat-number">+45</div>
+                    <div class="stat-label">Trabalhos Feitos</div>
+                </div>
+
+                <div class="stat-card reveal delay-2">
+                    <div class="stat-number">+120K</div>
+                    <div class="stat-label">Visualizações Globais</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVIÇOS -->
+        <section class="services-section">
+            <div class="reveal-box">
+                <h2 class="section-title">O Que <span style="font-weight: 300; font-family: serif; font-style: italic;">Faço</span></h2>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card reveal delay-1">
+                    <div class="service-icon">✦</div>
+                    <h3>Motion Design</h3>
+                    <p>Animações fluidas e dinâmicas adaptadas para redes sociais, campanhas e marcas.</p>
+                </div>
+
+                <div class="service-card reveal delay-2">
+                    <div class="service-icon">❖</div>
+                    <h3>Vídeo & 3D</h3>
+                    <p>Produção de vídeo profissional e modelação/animação tridimensional imersiva.</p>
+                </div>
+
+                <div class="service-card reveal delay-3">
+                    <div class="service-icon">◆</div>
+                    <h3>Design & Branding</h3>
+                    <p>Criação de identidades visuais marcantes, rebranding e estratégias digitais.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- BOTÃO FIXO "VOLTAR AO TOPO" -->
+    <a href="#topo" class="back-to-top" id="backToTopBtn">↑</a>
+
+    <script>
+        // Botão Voltar ao Topo
+        const backToTopButton = document.getElementById('backToTopBtn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+
+        // EFEITO DE MÁQUINA DE ESCREVER (VELOCIDADE AJUSTADA MAIS RÁPIDA)
+        const greetings = ["HELLO!", "OLÁ!", "BONJOUR!", "HOLA!", "CIAO!"];
+        let gIndex = 0;
+
+        function typeHello() {
+            let letters = greetings[gIndex].split("");
+            var loopType = function() {
+                if (letters.length > 0) {
+                    document.getElementById('typing-hello').innerHTML += letters.shift();
+                } else {
+                    setTimeout(deleteHello, 1500); // Pausa menor com a palavra totalmente escrita
+                    return;
+                }
+                setTimeout(loopType, 75); // Velocidade de escrita mais rápida (antes era 120)
+            };
+            loopType();
+        }
+
+        function deleteHello() {
+            let letters = greetings[gIndex].split("");
+            var loopDelete = function() {
+                if (letters.length > 0) {
+                    letters.pop();
+                    document.getElementById('typing-hello').innerHTML = letters.join("");
+                } else {
+                    gIndex = (gIndex + 1) % greetings.length;
+                    setTimeout(typeHello, 300); // Pausa menor antes de começar a próxima palavra
+                    return;
+                }
+                setTimeout(loopDelete, 40); // Velocidade de apagamento mais rápida (antes era 70)
+            };
+            loopDelete();
+        }
+
+        // Inicia a animação do Hello ao carregar
+        setTimeout(typeHello, 500);
+
+        // Observer para as animações gerais (.reveal)
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    
+                    const progressBars = entry.target.querySelectorAll('.skill-progress');
+                    progressBars.forEach(bar => {
+                        const targetWidth = bar.getAttribute('data-width');
+                        bar.style.width = targetWidth;
+                    });
+
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach(element => {
+            revealObserver.observe(element);
+        });
+
+        // Observer para os títulos (.reveal-box)
+        const titleBoxObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.reveal-box').forEach(element => {
+            titleBoxObserver.observe(element);
+        });
+    </script>
+
+</body>
+</html>

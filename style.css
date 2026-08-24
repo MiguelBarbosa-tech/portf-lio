@@ -1,0 +1,196 @@
+/* Configurações Gerais - Tema Escuro */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #0b0b0b;
+    color: #ffffff;
+    padding: 0 60px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Menu Superior (Navbar) */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.navbar .logo {
+    font-weight: bold;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+
+.navbar nav a {
+    color: #666;
+    text-decoration: none;
+    margin: 0 20px;
+    font-size: 0.95rem;
+    transition: color 0.3s;
+}
+
+.navbar nav a.active, .navbar nav a:hover {
+    color: #fff;
+}
+
+.btn-head {
+    background-color: #fff;
+    color: #000;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Secção do Título (Hero) */
+.hero {
+    padding: 100px 0 60px 0;
+}
+
+.hero h1 .serif-normal {
+    font-family: 'Instrument Serif', serif !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    font-size: 3em; /* Dá o mesmo tamanho elegante das linhas de baixo */
+    line-height: 0.85;
+    color: #ffffff;
+}
+
+.hero h1 .italic-serif {
+    font-family: 'Instrument Serif', serif !important;
+    font-style: italic !important;
+    font-weight: 400 !important;
+    font-size: 3em; /* Dá um leve destaque no tamanho para combinar com a referência */
+    line-height: 0.85; 
+    color: #ffffff;
+    display: inline-block;
+}
+
+/* Filtros de Categorias */
+.filters {
+    margin-bottom: 50px;
+    display: flex;
+    gap: 25px;
+}
+
+.filter-btn {
+    background: none;
+    border: none;
+    color: #555;
+    font-size: 1rem;
+    cursor: pointer;
+    padding-bottom: 8px;
+    transition: color 0.3s;
+}
+
+.filter-btn.active {
+    color: #fff;
+    border-bottom: 2px solid #fff;
+}
+
+.filter-btn:hover {
+    color: #aaa;
+}
+
+/* Grelha de Projetos (Igual à referência) */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 40px;
+    padding-bottom: 80px;
+}
+
+.project-card {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.image-placeholder {
+    width: 100%;
+    height: 280px;
+    background-color: #161616;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #444;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+
+.project-card:hover .image-placeholder {
+    background-color: #222;
+}
+
+.project-info .category {
+    color: #666666;          /* Cor cinzenta escura */
+    font-size: 0.85rem;
+    text-transform: uppercase; /* Garante que fica tudo em MAIÚSCULAS */
+    letter-spacing: 1px;       /* Dá um pequeno espaço entre as letras */
+}
+
+.project-info h3 {
+    margin: 8px 0;
+    font-size: 1.4rem;
+    font-weight: 600;          /* Deixa o título principal bem destacado */
+    color: #ffffff;            /* Texto totalmente branco */
+}
+
+.project-info .tag {
+    color: #444444;          /* Cinzenta ainda mais suave para a linha de baixo */
+    font-size: 0.85rem;
+}
+
+/* Rodapé Final */
+.footer-cta {
+    text-align: center;
+    padding: 120px 0;
+    border-top: 1px solid #1a1a1a;
+}
+
+.footer-cta h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.btn-briefing {
+    background-color: #fff;
+    color: #000;
+    border: none;
+    padding: 15px 35px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+}
+.project-image {
+    width: 100%;
+    height: 280px;
+    object-fit: cover; /* Faz a imagem preencher o espaço sem distorcer */
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+/* Remove o sublinhado, força as cores originais do texto e tira a borda azul de seleção */
+a.project-card {
+    text-decoration: none !important;
+    color: inherit !important;
+    outline: none !important;
+}
+
+/* Garante que os textos lá dentro ignoram os sublinhados dos links */
+a.project-card * {
+    text-decoration: none !important;
+}
