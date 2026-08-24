@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D'GOSTAR — Detalhes do Projeto</title>
+    <style>
+        /* ==========================================
+           1. RESET DE ESTILOS BASE
+           ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth; /* Garante scroll suave para o botão "Voltar ao Topo" */
+        }
+
+        body {
+            background-color: #0b0b0b;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ==========================================
+           2. PAINEL SUPERIOR (HERO BANNER)
+           ========================================== */
+        .hero-banner {
+            position: relative;
+            width: 100%;
+            height: 65vh; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 60px;
+        }
+
+        .hero-bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1; 
+            opacity: 0.35; 
+        }
+
+        .hero-banner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(11, 11, 11, 0) 40%, rgba(11, 11, 11, 1) 100%);
+            z-index: 2; 
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+        }
+
+        .back-link {
+            color: #cccccc; 
+            text-decoration: none; 
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #ffffff;
+        }
+
+        .project-header span {
+            color: #aaaaaa; 
+            font-size: 0.95rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+        }
+
+        .project-header h1 {
+            font-size: 4.5rem; 
+            margin-top: 10px; 
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        /* ==========================================
+           3. CONTEÚDO PRINCIPAL E SECÇÃO "SOBRE"
+           ========================================== */
+        .main-content {
+            padding: 20px 60px 80px 60px;
+            width: 100%;
+        }
+
+        .about-section {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            width: 100%;
+            max-width: none;
+            margin-bottom: 80px;
+            align-items: start;
+        }
+
+        .project-meta {
+            display: grid;
+            grid-template-columns: repeat(3, auto);
+            gap: 40px; 
+            padding-top: 5px;
+            width: fit-content; 
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            text-align: left;
+        }
+
+        .meta-item:not(:first-child):before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 10px;
+            width: 1px;
+            height: 35px;
+            background-color: #222222;
+        }
+
+        .meta-label {
+            color: #777777;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .meta-value {
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .about-text {
+            justify-self: end;
+            width: 100%;
+            max-width: 550px;
+            text-align: left; 
+        }
+
+        .about-text h2 {
+            font-size: 1.6rem; 
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .about-text p {
+            color: #aaaaaa; 
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #555555;
+            border-bottom: 1px solid #1a1a1a;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        
+        /* ==========================================
+           4. GRELHAS DE MULTIMÉDIA (VÍDEOS E FOTOS)
+           ========================================== */
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
+            gap: 30px;
+            margin-bottom: 60px;
+            justify-content: center; 
+        }
+
+        .portfolio-video {
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            object-fit: cover;
+            background-color: transparent;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+        }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+            justify-content: center;
+        }
+
+        .portfolio-img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;  
+            border-radius: 6px;
+            border: 1px solid #1a1a1a;
+            transition: transform 0.3s ease; 
+        }
+
+        .portfolio-img:hover {
+            transform: scale(1.02);
+        }
+
+        /* ==========================================
+           5. RODAPÉ DE TRANSIÇÃO (PRÓXIMO PROJETO)
+           ========================================== */
+        .next-project-footer-clean {
+            width: 100%;
+            padding: 100px 0;
+            background-color: #0b0b0b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-top: 1px solid #141414;
+            margin-top: 80px;
+        }
+
+        .next-project-link-clean {
+            text-decoration: none;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .next-project-link-clean * {
+            text-decoration: none;
+        }
+
+        .footer-subtitle-clean {
+            color: #666666;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        .footer-title-clean {
+            color: #ffffff;
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .arrow-circle-clean {
+            width: 50px;
+            height: 50px;
+            background-color: #f9f9f9;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .arrow-icon-clean {
+            color: #000000;
+            font-size: 1.3rem;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .next-project-link-clean:hover .footer-title-clean {
+            color: #cccccc;
+        }
+
+        .arrow-circle-clean:hover {
+            transform: scale(1.1);
+            background-color: #ffffff;
+        }
+
+        /* ==========================================
+           6. BOTÃO FIXO "VOLTAR AO TOPO"
+           ========================================== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 45px;
+            height: 45px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            border: 1px solid #333333;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: #ffffff;
+            color: #000000;
+            transform: translateY(-3px);
+        }
+
+        /* ==========================================
+           7. RESPONSIVIDADE (TELEMÓVEIS E TABLETS)
+           ========================================== */
+        @media (max-width: 768px) {
+            .hero-banner {
+                padding: 30px;
+                height: 50vh;
+            }
+            .project-header h1 {
+                font-size: 3rem;
+            }
+            .main-content {
+                padding: 20px 20px 60px 20px;
+            }
+            .about-section {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .about-text {
+                text-align: left;
+            }
+            .project-meta {
+                grid-template-columns: 1fr;
+            }
+            .meta-item {
+                text-align: left;
+            }
+            .meta-item:not(:first-child):before {
+                display: none;
+            }
+            .footer-title-clean {
+                font-size: 2rem;
+            }
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SECÇÃO DO TOPO (HERO) -->
+    <div class="hero-banner" id="topo">
+        <img src="capa dgostar.jpg" alt="Capa D'GOSTAR" class="hero-bg-image">
+
+        <div class="hero-content">
+            <a href="index.html" class="back-link">← Página Inicial</a>
+        </div>
+
+        <header class="project-header hero-content">
+            <span>Estratégia Digital & Conteúdo</span>
+            <h1>D'GOSTAR</h1>
+        </header>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="main-content">
+        
+        <!-- SECÇÃO SOBRE E METADADOS -->
+        <section class="about-section">
+            <div class="project-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Cliente</span>
+                    <span class="meta-value">D'GOSTAR</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Sector</span>
+                    <span class="meta-value">Vídeo | Design | Fotografia</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Ano</span>
+                    <span class="meta-value">2025</span>
+                </div>
+            </div>
+
+            <div class="about-text">
+                <h2>Sobre o Projeto</h2>
+                <p>Escreve aqui a descrição detalhada do projeto D'GOSTAR. Explica o conceito por trás da estratégia digital, o processo de criação de conteúdo e os resultados obtidos de forma clara e profissional.</p>
+            </div>
+        </section>
+
+        <!-- DESIGN GRÁFICO -->
+        <h3 class="section-title">Design Gráfico</h3>
+        <section class="media-grid">
+            <img src="design dgostar1.png" alt="Foto1" class="portfolio-img">
+            <img src="design dgostar2.png" alt="Foto2" class="portfolio-img">
+            <img src="design dgostar3.png" alt="Foto3" class="portfolio-img">
+        </section>
+
+        <!-- VÍDEOS -->
+        <h3 class="section-title">Vídeos</h3>
+        <section class="videos-grid">
+            <video class="portfolio-video" autoplay muted loop playsinline controls>
+                <source src="video inauguração.mp4" type="video/mp4">
+            </video>
+            <video class="portfolio-video" autoplay muted loop playsinline controls>
+                <source src="video pão.mp4" type="video/mp4">
+            </video>
+            <video class="portfolio-video" autoplay muted loop playsinline controls>
+                <source src="video natal.mp4" type="video/mp4">
+            </video>
+        </section>
+
+        <!-- FOTOGRAFIAS -->
+        <h3 class="section-title">Fotografias</h3>
+        <section class="media-grid">
+            <img src="dgostar1.jpg" alt="Foto 1" class="portfolio-img">
+            <img src="dgostar2.jpg" alt="Foto 2" class="portfolio-img">
+            <img src="dgostar3.jpg" alt="Foto 3" class="portfolio-img">
+            <img src="dgostar4.jpg" alt="Foto 4" class="portfolio-img">
+            <img src="dgostar5.jpg" alt="Foto 5" class="portfolio-img">
+            <img src="dgostar6.jpg" alt="Foto 6" class="portfolio-img">
+            <img src="dgostar7.jpg" alt="Foto 7" class="portfolio-img">
+            <img src="dgostar8.jpg" alt="Foto 8" class="portfolio-img">
+            <img src="dgostar9.jpg" alt="Foto 9" class="portfolio-img">
+            <img src="dgostar10.jpg" alt="Foto 10" class="portfolio-img">
+            <img src="dgostar11.jpg" alt="Foto 11" class="portfolio-img">
+            <img src="dgostar12.jpg" alt="Foto 12" class="portfolio-img">
+            <img src="dgostar13.jpg" alt="Foto 13" class="portfolio-img">
+            <img src="dgostar14.jpg" alt="Foto 14" class="portfolio-img">
+            <img src="dgostar15.jpg" alt="Foto 15" class="portfolio-img">
+            <img src="dgostar16.jpg" alt="Foto 16" class="portfolio-img">
+            <img src="dgostar17.jpg" alt="Foto 17" class="portfolio-img">
+            <img src="dgostar18.jpg" alt="Foto 18" class="portfolio-img">
+            <img src="dgostar19.jpg" alt="Foto 19" class="portfolio-img">
+            <img src="dgostar20.jpg" alt="Foto 20" class="portfolio-img">
+            <img src="dgostar21.jpg" alt="Foto 21" class="portfolio-img">
+            <img src="dgostar22.jpg" alt="Foto 22" class="portfolio-img">
+            <img src="dgostar23.jpg" alt="Foto 23" class="portfolio-img">
+        </section>
+        
+    </main>
+    
+    <!-- RODAPÉ DE TRANSIÇÃO -->
+    <footer class="next-project-footer-clean">
+        <a href="dessta.html" class="next-project-link-clean">
+            <span class="footer-subtitle-clean">PRÓXIMO PROJETO</span>
+            <h2 class="footer-title-clean">"Design Station" to "Dessta"</h2>
+            <div class="arrow-circle-clean">
+                <span class="arrow-icon-clean">→</span>
+            </div>
+        </a>
+    </footer>
+
+    <!-- BOTÃO FIXO "VOLTAR AO TOPO" -->
+    <a href="#topo" class="back-to-top" id="backToTopBtn">↑</a>
+
+    <!-- SCRIPT PARA MOSTRAR/ESCONDER O BOTÃO COM O SCROLL -->
+    <script>
+        const backToTopButton = document.getElementById('backToTopBtn');
+
+        window.addEventListener('scroll', () => {
+            // Mostra o botão após descer 300 pixéis
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+    </script>
+
+</body>
+</html>
