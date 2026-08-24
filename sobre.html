@@ -20,6 +20,50 @@
             color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* EFEITO DE MÁSCARA / RETÂNGULO BRANCO NO LOGÓTIPO */
+        .logo-reveal-box {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            max-width: 220px;
+            z-index: 1003;
+        }
+
+        .logo-reveal-box .logo-text {
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            font-size: 1rem;
+            color: #ffffff;
+            opacity: 1;
+            clip-path: inset(0 100% 0 0);
+            animation: revealTextMask 1.4s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .logo-reveal-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -40%;
+            width: 40%; 
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 2;
+            animation: slideBlockSlow 1.4s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        }
+
+        @keyframes slideBlockSlow {
+            0% { left: -40%; }
+            100% { left: 140%; }
+        }
+
+        @keyframes revealTextMask {
+            0% { clip-path: inset(0 100% 0 0); }
+            100% { clip-path: inset(0 0 0 0); }
         }
 
         /* ANIMAÇÕES BASE DE ENTRADA (FADE UP) */
@@ -72,16 +116,6 @@
             animation: revealTextMask 1.4s cubic-bezier(0.77, 0, 0.175, 1) forwards;
         }
 
-        @keyframes slideBlockSlow {
-            0% { left: -40%; }
-            100% { left: 140%; }
-        }
-
-        @keyframes revealTextMask {
-            0% { clip-path: inset(0 100% 0 0); }
-            100% { clip-path: inset(0 0 0 0); }
-        }
-
         .delay-1 { transition-delay: 0.1s; }
         .delay-2 { transition-delay: 0.2s; }
         .delay-3 { transition-delay: 0.3s; }
@@ -106,7 +140,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 30px 60px;
+            padding: 25px 60px;
             position: fixed;
             top: 0;
             left: 0;
@@ -116,28 +150,17 @@
             -webkit-backdrop-filter: blur(12px);
             z-index: 1000;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: padding 0.3s ease;
         }
 
-        .logo-link {
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .logo {
-            font-weight: 700;
-            letter-spacing: 1px;
-            font-size: 1.1rem;
-            color: #ffffff;
-            transition: opacity 0.3s;
-        }
-
-        .logo:hover {
-            opacity: 0.7;
-        }
-
+        /* MENU CENTRADO NO COMPUTADOR */
         .navbar nav {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
-            gap: 30px;
+            gap: 35px;
+            align-items: center;
         }
 
         .navbar nav a {
@@ -167,7 +190,28 @@
             color: #ffffff;
         }
 
-        .btn-head, .btn-main {
+        /* BOTÃO HAMBÚRGUER (OCULTO NO DESKTOP) */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 28px;
+            height: 20px;
+            z-index: 1002;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .btn-main {
             background-color: #ffffff;
             color: #000000;
             border: none;
@@ -183,7 +227,7 @@
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
         }
 
-        .btn-head:hover, .btn-main:hover {
+        .btn-main:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15);
             opacity: 0.95;
@@ -416,19 +460,36 @@
             transform: translateY(-3px);
         }
 
-        @media (max-width: 1024px) {
-            .page-container {
-                padding-left: 30px;
-                padding-right: 30px;
-            }
-            .skills-grid, .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
+        /* RESPONSIVIDADE PARA TELEMÓVEIS E TABLETS */
+        @media (max-width: 900px) {
             .navbar {
-                padding: 20px;
+                padding: 20px 20px;
+            }
+            .navbar nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100vh;
+                background-color: rgba(11, 11, 11, 0.98);
+                backdrop-filter: blur(15px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
+                transform: none;
+                left: auto;
+                transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                z-index: 1001;
+            }
+            .navbar nav.active {
+                right: 0;
+            }
+            .navbar nav a {
+                font-size: 1.5rem;
+            }
+            .menu-toggle {
+                display: flex;
             }
             .page-container {
                 padding: 130px 20px 60px 20px;
@@ -447,20 +508,36 @@
                 font-size: 2.8rem;
             }
         }
+
+        @media (max-width: 1024px) and (min-width: 901px) {
+            .page-container {
+                padding-left: 30px;
+                padding-right: 30px;
+            }
+            .skills-grid, .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
     </style>
 </head>
 <body id="topo">
 
     <header class="navbar">
-        <a href="index.html" class="logo-link">
-            <div class="logo">MIGUEL BARBOSA</div>
-        </a>
-        <nav>
+        <div class="logo-reveal-box">
+            <span class="logo-text">MIGUEL BARBOSA</span>
+        </div>
+        
+        <nav id="navMenu">
             <a href="index.html">Portfólio</a>
             <a href="sobre.html" class="active">Sobre</a>
             <a href="contactos.html">Contacto</a>
         </nav>
-        <a href="contactos.html" class="btn-head">Iniciar Projeto</a>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </header>
 
     <main class="page-container">
@@ -583,6 +660,23 @@
     <a href="#topo" class="back-to-top" id="backToTopBtn">↑</a>
 
     <script>
+        // SCRIPT PARA O MENU MOBILE (HAMBÚRGUER)
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            menuToggle.classList.toggle('open');
+        });
+
+        // Fechar o menu ao clicar num link
+        document.querySelectorAll('#navMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('open');
+            });
+        });
+
         // Botão Voltar ao Topo
         const backToTopButton = document.getElementById('backToTopBtn');
 
@@ -594,7 +688,7 @@
             }
         });
 
-        // EFEITO DE MÁQUINA DE ESCREVER (VELOCIDADE AJUSTADA MAIS RÁPIDA)
+        // EFEITO DE MÁQUINA DE ESCREVER
         const greetings = ["HELLO!", "OLÁ!", "BONJOUR!", "HOLA!", "CIAO!"];
         let gIndex = 0;
 
@@ -604,10 +698,10 @@
                 if (letters.length > 0) {
                     document.getElementById('typing-hello').innerHTML += letters.shift();
                 } else {
-                    setTimeout(deleteHello, 1500); // Pausa menor com a palavra totalmente escrita
+                    setTimeout(deleteHello, 1500);
                     return;
                 }
-                setTimeout(loopType, 75); // Velocidade de escrita mais rápida (antes era 120)
+                setTimeout(loopType, 75);
             };
             loopType();
         }
@@ -620,15 +714,14 @@
                     document.getElementById('typing-hello').innerHTML = letters.join("");
                 } else {
                     gIndex = (gIndex + 1) % greetings.length;
-                    setTimeout(typeHello, 300); // Pausa menor antes de começar a próxima palavra
+                    setTimeout(typeHello, 300);
                     return;
                 }
-                setTimeout(loopDelete, 40); // Velocidade de apagamento mais rápida (antes era 70)
+                setTimeout(loopDelete, 40);
             };
             loopDelete();
         }
 
-        // Inicia a animação do Hello ao carregar
         setTimeout(typeHello, 500);
 
         // Observer para as animações gerais (.reveal)
