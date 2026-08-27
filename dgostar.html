@@ -359,6 +359,16 @@
             .meta-item:not(:first-child):before {
                 display: none;
             }
+            
+            /* CORREÇÃO PARA AS FOTOS FICAREM EM 2 COLUNAS NO TELEMÓVEL */
+            .media-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .portfolio-img {
+                height: 180px; /* Altura ideal adaptada para ecrãs pequenos */
+            }
+
             .footer-title-clean {
                 font-size: 2rem;
             }
@@ -373,7 +383,7 @@
 
     <!-- SECÇÃO DO TOPO (HERO) -->
     <div class="hero-banner" id="topo">
-        <img src="capa dgostar.JPG" alt="Capa D'GOSTAR" class="hero-bg-image">
+        <img src="capa dgostar.jpg" alt="Capa D'GOSTAR" class="hero-bg-image">
 
         <div class="hero-content">
             <a href="index.html" class="back-link">← Página Inicial</a>
@@ -423,10 +433,10 @@
         <h3 class="section-title">Vídeos</h3>
         <section class="videos-grid">
             <video class="portfolio-video" autoplay muted loop playsinline controls>
-                <source src="video inauguração.mp4" type="video/mp4">
+                <source src="video inauguração.mp4" type="video/mp4">
             </video>
             <video class="portfolio-video" autoplay muted loop playsinline controls>
-                <source src="video pão.mp4" type="video/mp4">
+                <source src="video pão.mp4" type="video/mp4">
             </video>
             <video class="portfolio-video" autoplay muted loop playsinline controls>
                 <source src="video natal.mp4" type="video/mp4">
