@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duplas Improváveis – adn — Detalhes do Projeto</title>
+    <style>
+        /* ==========================================
+           1. RESET DE ESTILOS BASE
+           ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth; /* Garante scroll suave para o botão "Voltar ao Topo" */
+        }
+
+        body {
+            background-color: #0b0b0b;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ==========================================
+           2. PAINEL SUPERIOR (HERO BANNER)
+           ========================================== */
+        .hero-banner {
+            position: relative;
+            width: 100%;
+            height: 65vh; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 60px;
+        }
+
+        .hero-bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1; 
+            opacity: 0.35; 
+        }
+
+        .hero-banner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(11, 11, 11, 0) 40%, rgba(11, 11, 11, 1) 100%);
+            z-index: 2; 
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+        }
+
+        .back-link {
+            color: #cccccc; 
+            text-decoration: none; 
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #ffffff;
+        }
+
+        .project-header span {
+            color: #aaaaaa; 
+            font-size: 0.95rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+        }
+
+        .project-header h1 {
+            font-size: 4.5rem; 
+            margin-top: 10px; 
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        /* ==========================================
+           3. CONTEÚDO PRINCIPAL E SECÇÃO "SOBRE"
+           ========================================== */
+        .main-content {
+            padding: 20px 60px 80px 60px;
+            width: 100%;
+        }
+
+        .about-section {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            width: 100%;
+            max-width: none;
+            margin-bottom: 80px;
+            align-items: start;
+        }
+
+        .project-meta {
+            display: grid;
+            grid-template-columns: repeat(3, auto);
+            gap: 40px;
+            padding-top: 5px;
+            width: fit-content;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            text-align: left;
+        }
+
+        .meta-item:not(:first-child):before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 10px;
+            width: 1px;
+            height: 35px;
+            background-color: #222222;
+        }
+
+        .meta-label {
+            color: #777777;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .meta-value {
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .about-text {
+            justify-self: end;
+            width: 100%;
+            max-width: 550px;
+            text-align: left;
+        }
+
+        .about-text h2 {
+            font-size: 1.6rem; 
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .about-text p {
+            color: #aaaaaa; 
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #555555;
+            border-bottom: 1px solid #1a1a1a;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        
+        /* ==========================================
+           4. GRELHAS DE MULTIMÉDIA (VÍDEOS E FOTOS)
+           ========================================== */
+        
+        .motion-section-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        /* Vídeo 1 em Destaque (Horizontal 16:9 no topo) */
+        .featured-video {
+            width: 100%;
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            background-color: transparent;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Grelha Unificada (Estilo Tabela Perfeita: Vertical largo à esquerda + 3 colunas quadradas à direita) */
+        .table-layout-grid {
+            display: grid;
+            grid-template-columns: 420px repeat(3, 1fr);
+            gap: 20px;
+            width: 100%;
+            align-items: stretch;
+        }
+
+        /* Vídeo Vertical Alinhado (Ocupa 2 linhas em altura) */
+        .vertical-video-aligned {
+            width: 100%;
+            height: 100%;
+            aspect-ratio: 9 / 16;
+            object-fit: cover;
+            background-color: transparent;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            grid-row: span 2;
+        }
+
+        /* Vídeo em formato Reel Isolado (para a Animação 3D) */
+        .reel-video {
+            width: 100%;
+            max-width: 420px;
+            aspect-ratio: 9 / 16;
+            object-fit: cover;
+            background-color: transparent;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Vídeos individuais da grelha (Quadrados 1:1) */
+        .portfolio-video {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            background-color: transparent;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+        }
+
+        /* ==========================================
+           5. RODAPÉ DE TRANSIÇÃO (PRÓXIMO PROJETO)
+           ========================================== */
+        .next-project-footer-clean {
+            width: 100%;
+            padding: 100px 0;
+            background-color: #0b0b0b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-top: 1px solid #141414;
+            margin-top: 80px;
+        }
+
+        .next-project-link-clean {
+            text-decoration: none;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-subtitle-clean {
+            color: #666666;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        .footer-title-clean {
+            color: #ffffff;
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .arrow-circle-clean {
+            width: 50px;
+            height: 50px;
+            background-color: #f9f9f9;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .arrow-icon-clean {
+            color: #000000;
+            font-size: 1.3rem;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .next-project-link-clean:hover .footer-title-clean {
+            color: #cccccc;
+        }
+
+        .arrow-circle-clean:hover {
+            transform: scale(1.1);
+            background-color: #ffffff;
+        }
+
+        /* ==========================================
+           6. BOTÃO FIXO "VOLTAR AO TOPO"
+           ========================================== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 45px;
+            height: 45px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            border: 1px solid #333333;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: #ffffff;
+            color: #000000;
+            transform: translateY(-3px);
+        }
+
+        /* ==========================================
+           7. RESPONSIVIDADE (TELEMÓVEIS E TABLETS)
+           ========================================== */
+        @media (max-width: 768px) {
+            .hero-banner {
+                padding: 30px;
+                height: 50vh;
+            }
+            .project-header h1 {
+                font-size: 3rem;
+            }
+            .main-content {
+                padding: 20px 20px 60px 20px;
+            }
+            .about-section {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .about-text {
+                text-align: left;
+            }
+            .project-meta {
+                grid-template-columns: 1fr;
+            }
+            .meta-item {
+                text-align: left;
+            }
+            .meta-item:not(:first-child):before {
+                display: none;
+            }
+            .table-layout-grid {
+                grid-template-columns: 1fr;
+            }
+            .vertical-video-aligned {
+                grid-row: span 1;
+                height: auto;
+            }
+            .footer-title-clean {
+                font-size: 2rem;
+            }
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SECÇÃO DO TOPO (HERO) -->
+    <div class="hero-banner" id="topo">
+        <img src="capa duplas improvaveis.png" alt="Capa D'GOSTAR" class="hero-bg-image">
+
+        <div class="hero-content">
+            <a href="index.html" class="back-link">← Página Inicial</a>
+        </div>
+
+        <header class="project-header hero-content">
+            <span>Lançamento de Novo Projeto</span>
+            <h1>Duplas Improváveis – adn</h1>
+        </header>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="main-content">
+        
+        <!-- SECÇÃO SOBRE E METADADOS -->
+        <section class="about-section">
+            <div class="project-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Cliente</span>
+                    <span class="meta-value">adn</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Sector</span>
+                    <span class="meta-value">Motion Design</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Ano</span>
+                    <span class="meta-value">2026</span>
+                </div>
+            </div>
+
+            <div class="about-text">
+                <h2>Sobre o Projeto</h2>
+                <p>Escreve aqui a descrição detalhada do projeto adn. Explica o conceito por trás da estratégia digital, o processo de criação de conteúdo e os resultados obtidos de forma clara e profissional.</p>
+            </div>
+        </section>
+
+         <!-- Animação 3D (Em formato Reel/Vertical Perfeito) -->
+        <h3 class="section-title">Motion Design</h3>
+        <section>
+            <video class="reel-video" autoplay muted loop playsinline controls>
+                <source src="motion duplas improvaveis.mp4" type="video/mp4">
+            </video>
+        </section>
+        
+    </main>
+    
+    <!-- RODAPÉ DE TRANSIÇÃO -->
+    <footer class="next-project-footer-clean">
+        <a href="PresençaDigital-JaimeOculista.html" class="next-project-link-clean">
+            <span class="footer-subtitle-clean">PRÓXIMO PROJETO</span>
+            <h2 class="footer-title-clean">Presença Digital – Jaime Oculista</h2>
+            <div class="arrow-circle-clean">
+                <span class="arrow-icon-clean">→</span>
+            </div>
+        </a>
+    </footer>
+
+    <!-- BOTÃO FIXO "VOLTAR AO TOPO" -->
+    <a href="#topo" class="back-to-top" id="backToTopBtn">↑</a>
+
+    <!-- SCRIPT PARA MOSTRAR/ESCONDER O BOTÃO COM O SCROLL -->
+    <script>
+        const backToTopButton = document.getElementById('backToTopBtn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+    </script>
+
+</body>
+</html>
