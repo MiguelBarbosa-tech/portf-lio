@@ -369,6 +369,18 @@
             .meta-item:not(:first-child):before {
                 display: none;
             }
+            
+            /* CORREÇÃO PARA AS FOTOS NO TELEMÓVEL: 2 colunas e sem cortes */
+            .media-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .portfolio-img {
+                height: 160px;       /* Altura menor e uniforme */
+                object-fit: contain; /* Garante que a imagem inteira aparece sem ser cortada */
+                background-color: #000000; /* Fundo preto para preencher espaços vazios se a foto for muito larga */
+            }
+
             .footer-title-clean {
                 font-size: 2rem;
             }
